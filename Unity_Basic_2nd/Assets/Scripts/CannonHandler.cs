@@ -36,14 +36,15 @@ public class CannonHandler : MonoBehaviour
             isCharging = true;
         }
 
-        if(Input.GetMouseButtonUp(0) && !isFire)
+        if(Input.GetMouseButtonUp(0))
         {
-            isFire = true;
             GameObject temp = Instantiate(ballPrefab, firePosition.transform.position, Quaternion.identity);
             temp.GetComponent<BallScript>().Shoot(firePosition.transform.right, power);
+            isCharging = false;
+            power = 0;
         }
 
-        if (isCharging && !isFire && power < maxPower)
+        if (isCharging && power < maxPower)
         {
             power += 500 * Time.deltaTime;
         }
