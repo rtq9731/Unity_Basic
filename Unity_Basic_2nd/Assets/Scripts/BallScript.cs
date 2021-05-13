@@ -1,4 +1,5 @@
 using UnityEngine;
+using Cinemachine;
 
 public class BallScript : MonoBehaviour
 {
@@ -6,7 +7,10 @@ public class BallScript : MonoBehaviour
 
     [SerializeField] float expRadius = 4f;
     [SerializeField] float expPower = 200f;
+    [SerializeField] GameObject boomEffect;
 
+    CannonHandler cannon;
+    CinemachineVirtualCamera cannonCam;
     Rigidbody2D rigid;
 
     private int crateLayer = 0;
@@ -17,9 +21,20 @@ public class BallScript : MonoBehaviour
         crateLayer = LayerMask.NameToLayer("Crate");
     }
 
-    public void Shoot(Vector2 dir , float power)
+    void Update()
     {
+        if( this.transform.position.y <= -10 )
+        {
+            Boom();
+        }
+    }
+
+    public void Shoot(Vector2 dir , float power, CinemachineVirtualCamera cam, CannonHandler cannon)
+    {
+        Debug.Log("°ø ¹ß»ç!");
         rigid.AddForce(dir.normalized * power);
+        cannonCam = cam;
+        this.cannon = cannon;
     }
 
     private void OnCollisionEnter2D(Collision2D collisionInfo)
@@ -33,14 +48,21 @@ public class BallScript : MonoBehaviour
                 foreach(Collider2D item in cols)
                 {
                     CrateScript cs = item.gameObject.GetComponent<CrateScript>();
-                    Debug.Log("¤¾¤·");
                     if(cs != null)
                     {
                         cs.AddExplosion(transform.position, expPower);
                     }
                 }
             }
-            Destroy(this.gameObject);
+            Boom();
         }
+    }
+
+    private void Boom()
+    {
+        Instantiate(boomEffect, this.transform.position, Quaternion.identity);
+        cannonCam.gameObject.GetComponent<CameraManager>().SetDisable(1.5f);
+        cannon.isFire = false;
+        Destroy(this.gameObject);
     }
 }

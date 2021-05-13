@@ -13,6 +13,18 @@ public class CrateScript : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        Debug.Log("박스 등장!");
+        CannonHandler.boxCount++;
+    }
+
+    void Update()
+    {
+        if (transform.position.x < -6f)
+        AddExplosion(Vector3.zero, 10);
+    }
+
     public void AddExplosion(Vector3 pos, float power)
     {
         Vector3 dir = transform.position - pos;
@@ -22,8 +34,9 @@ public class CrateScript : MonoBehaviour
 
         BrokenCrate bs = broken.GetComponent<BrokenCrate>();
         bs.AddExplosion(dir.normalized, power);
-
-        Destroy(this.gameObject);
+        
+        CannonHandler.boxCount--;
         Destroy(broken, 2);
+        Destroy(this.gameObject);
     }
 }
