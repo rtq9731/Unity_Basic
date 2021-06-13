@@ -86,7 +86,61 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void DropItem(int items)
+    public void Shuffle()
+    {
+        if (shuffleItemCount < 3)
+        {
+            GameManager.SetMsgText("아이템을 3개 드롭후 실행가능합니다.", 1.5f);
+            return;
+        }
+
+        if (shuffleReadyCount < 3)
+        {
+            GameManager.SetMsgText("잠시 기다렸다 시도하세요", 1.5f);
+            return;
+        }
+
+        btnShuffle.interactable = false; //셔플 버튼 잠궈주고
+
+        List<int>[] lists = new List<int>[3];
+        for (int i = 0; i < lists.Length; i++)
+        {
+            lists[i] = new List<int>();
+        }
+        for (int i = 0; i < 8; i++)
+        {
+            //각 한번마다 0,1,2를 겹치지 않게 lists[0,1,2]번째에 Add 해주면 돼.
+            //제자리에 가만 있으면 안되니까 현재있는 위치하고는 다르게
+            List<int> locList = new List<int> { 0, 1, 2 };
+
+            for (int j = 0; j < lists.Length; j++)
+            {
+                if (i == 0)
+                {
+                    lists[j].Add(j); //처음에는 시작위치 그대로 넣고
+                }
+                else
+                {
+                    List<int> clone = locList;
+                    if (clone.Count > 1)
+                        clone.Remove(lists[j][lists[j].Count - 1]);
+
+                    int idx = Random.Range(0, clone.Count); // 0,2
+                    lists[j].Add(clone[idx]);
+
+                    locList.Remove(clone[idx]);
+                }
+            }
+        }
+
+        for (int i = 0; i < lists.Length; i++)
+        {
+            dropItems[i].CupAndShake(lists[i]);
+        }
+
+    }
+
+        public void DropItem(int items)
     {
         if (shuffleItemCount >= 3)
         {
