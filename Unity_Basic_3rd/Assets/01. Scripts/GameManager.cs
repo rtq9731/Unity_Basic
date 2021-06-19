@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -28,11 +29,15 @@ public class GameManager : MonoBehaviour
     [Header("외부 게임오브젝트 접근용")]
     [SerializeField] ItemPanel itemPanel;
     [SerializeField] int[] count = new int[4];
+    [SerializeField] CatScript cat;
 
     Button[] ItemBtns;
 
     private int shuffleItemCount = 0;
     private int shuffleReadyCount = 0;
+    private int shuffleCount = 0;
+
+    private Item[] shuffledItems;
 
     private AudioSource audioSource = null;
 
@@ -48,6 +53,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        shuffledItems = new Item[3];
         audioSource = GetComponent<AudioSource>();
         dropItems = dropPoints.GetComponentsInChildren<Item>();
         foreach (var item in dropItems)
@@ -109,6 +115,65 @@ public class GameManager : MonoBehaviour
 
         itemPanel.RefreshItemCount(count);
     }
+    public void Shuffle()
+    {
+        if(shuffleItemCount < 3)
+        {
+            GameManager.SetMsgText("아이템을 3개 드롭 후 실행가능합니다.", 1.5f);
+            return;
+        }
+
+        if(shuffleReadyCount > 3)
+        {
+            GameManager.SetMsgText("잠시 기다렸다 시도하세요", 1.5f);
+            return;
+        }
+
+        btnShuffle.interactable = false;
+
+        List<int>[] lists = new List<int>[3];
+        for (int i = 0; i < lists.Length; i++)
+        {
+            lists[i] = new List<int>();
+        }
+
+        for (int i = 0; i < 8; i++)
+        {
+            List<int> locList = new List<int> { 0, 1, 2 };
+
+            for (int j = 0; j < lists.Length; j++)
+            {
+                if (i == 0)
+                {
+                    lists[j].Add(j);
+                }
+                else
+                {
+                    List<int> clone = locList.ToList();
+                    if (clone.Count > 1)
+                        clone.Remove(lists[j][lists[j].Count - 1]);
+
+                    int idx = Random.Range(0, clone.Count);
+                    lists[j].Add(clone[idx]);
+
+                    locList.Remove(clone[idx]);
+                }
+            }
+        }
+
+        for (int i = 0; i < lists.Length; i++)
+        {
+            int idx = lists[i].Last();
+            shuffledItems[idx] = dropItems[i];
+        }
+
+        for (int i = 0; i < lists.Length; i++)
+        {
+            dropItems[i].CupAndShake(lists[i]);
+        }
+
+    }
+
 
     public static void SetMsgText(string text, float time = 1f)
     {
@@ -135,4 +200,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static void ShuffleComplete()
+    {
+        Instance.shuffleCount++;
+        if(Instance.shuffleCount >= 3)
+        {
+            //고양이가 작업
+            Instance.cat.ArrowSequence();
+        }
+    }
+
+    public static void OpenCup(int idx)
+    {
+        Instance.shuffledItems[idx].Open();
+    }
+
+    public static void GiveItemToCat(Items items)
+    {
+        Instance.cat.Give(items);
+    }
 }

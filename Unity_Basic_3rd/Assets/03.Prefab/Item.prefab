@@ -183,3 +183,4 @@ MonoBehaviour:
   - {fileID: 3191122964850554743, guid: 7696aa5f4c1cc2d4d9d6b7dee1808959, type: 3}
   - {fileID: 5382512944479897801, guid: 7696aa5f4c1cc2d4d9d6b7dee1808959, type: 3}
   - {fileID: -5515383189529662604, guid: 7696aa5f4c1cc2d4d9d6b7dee1808959, type: 3}
+  cupObj: {fileID: 448436226}
