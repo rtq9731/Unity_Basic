@@ -14,6 +14,7 @@ public class PlayerAnimation : MonoBehaviour
     private readonly int hashIsGround = Animator.StringToHash("isGround");
     private readonly int hashIsJumping = Animator.StringToHash("isJumping");
     private readonly int hashDoubleJump = Animator.StringToHash("doubleJump");
+    private readonly int hashAttack = Animator.StringToHash("attack");
 
     private bool bJumping = false;
     private void Awake()
@@ -50,6 +51,11 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetBool(hashIsJumping, false);
         bJumping = false;
+    }
+
+    public void StartAttack()
+    {
+        animator.SetTrigger(hashAttack);
     }
 }
 
