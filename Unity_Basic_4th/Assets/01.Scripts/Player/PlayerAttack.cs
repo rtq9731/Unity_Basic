@@ -40,5 +40,22 @@ public class PlayerAttack : MonoBehaviour
     private void Attack()
     {
         playerAnimation.StartAttack();
+
+        Vector2 dir = spriteRenderer.flipX ? transform.right * -1 : transform.right;
+
+        Debug.DrawRay(transform.position, dir * attackRange, Color.red, 0.5f);
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, attackRange, whatIsEnemy);
+        if (hit.collider) // hit의 컬라이더를 뱉음.
+        {
+            IDamageable iDamage = hit.collider.GetComponent<IDamageable>();
+
+            if(iDamage != null)
+            {
+                iDamage.OnDamage(attackDamage, hit.point, hit.normal);
+            }
+        }
+
+
     }
 }
