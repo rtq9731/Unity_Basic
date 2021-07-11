@@ -1,0 +1,152 @@
+fileFormatVersion: 2
+guid: bef0f8e610391c146a17bf76c85f6f13
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 11, y: 10, z: 11, w: 14}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites: []
+    outline:
+    - - {x: 0, y: 32}
+      - {x: -12.485781, y: 31.385128}
+      - {x: -24.491741, y: 29.564144}
+      - {x: -35.556496, y: 26.607027}
+      - {x: -45.254833, y: 22.627417}
+      - {x: -53.214058, y: 17.778246}
+      - {x: -59.12829, y: 12.24587}
+      - {x: -62.770256, y: 6.2428913}
+      - {x: -64, y: 0.0000024159328}
+      - {x: -62.77026, y: -6.2428865}
+      - {x: -59.128292, y: -12.245865}
+      - {x: -53.214058, y: -17.778246}
+      - {x: -45.254833, y: -22.627417}
+      - {x: -35.55649, y: -26.607029}
+      - {x: -24.49173, y: -29.564148}
+      - {x: -12.485765, y: -31.38513}
+      - {x: 0.000020853848, y: -32}
+      - {x: 12.485806, y: -31.385126}
+      - {x: 24.491768, y: -29.564138}
+      - {x: 35.556526, y: -26.607018}
+      - {x: 45.254864, y: -22.627403}
+      - {x: 53.21408, y: -17.778229}
+      - {x: 59.12831, y: -12.245846}
+      - {x: 62.770267, y: -6.2428627}
+      - {x: 64, y: 0.000030899173}
+      - {x: 62.770245, y: 6.2429233}
+      - {x: 59.12826, y: 12.245903}
+      - {x: 53.214012, y: 17.77828}
+      - {x: 45.254776, y: 22.627445}
+      - {x: 35.556423, y: 26.607052}
+      - {x: 24.491653, y: 29.564163}
+      - {x: 12.485684, y: 31.385138}
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
