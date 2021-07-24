@@ -53,8 +53,8 @@ public class PlayerMove : MonoBehaviour
     {
         xMove = playerInput.xMove;
 
-        if (xMove >= 0) { sr.flipX = false; }
-        else { sr.flipX = true; }
+        if (xMove > 0) { sr.flipX = false; }
+        else if (xMove < 0) { sr.flipX = true; }
 
         if (playerInput.isJump && (isGround || jumpCount <= maxJumpCount) ) { isJump = true; }
 
