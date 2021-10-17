@@ -59,7 +59,7 @@ public abstract class EnemyMove : MonoBehaviour
         currentSpeed = moveSpeed;
     }
 
-    public void Filp()
+    public void Flip()
     {
         sr.flipX = !sr.flipX;
     }

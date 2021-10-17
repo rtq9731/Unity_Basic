@@ -41,10 +41,9 @@ public class DialogPanel : MonoBehaviour
     public void ShowDialog()
     {
         currentIndex = 0;
+        GameManager.TimeScale = 0f;
         panel.DOScale(new Vector3(1, 1, 1), 0.8f).OnComplete(() =>
         {
-            GameManager.TimeScale = 0f;
-
             TypeIt(list[currentIndex]);
             isOpen = true;
         });

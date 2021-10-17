@@ -48,6 +48,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+
     private void CheckState()
     {
         if (currentState == State.Hit || currentState == State.Dead)
@@ -93,6 +94,19 @@ public class EnemyAI : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void SetHit()
+    {
+        currentState = State.Hit;
+        move.Stop();
+        StartCoroutine(Recover(stunTime));
+    }
+
+    private IEnumerator Recover(float time)
+    {
+        yield return new WaitForSeconds(time);
+        currentState = State.Patrol;
     }
 
 }

@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            return instance.player;
+            return instance != null ? instance.player : null;
         }
     }
     public Transform player;
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            return instance.timeScale;
+            return instance != null ? instance.timeScale : 1;
         }
         set
         {

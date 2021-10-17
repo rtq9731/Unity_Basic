@@ -59,7 +59,7 @@ public class EnemyFOV : MonoBehaviour
         RaycastHit2D hit2D = Physics2D.Raycast(transform.position, dir.normalized, viewRange, obstacleLayer);
         if(hit2D.collider != null)
         {
-            isView = hit2D.collider.gameObject.CompareTag("PLAYER");
+            isView = hit2D.collider.gameObject.CompareTag("Player");
         }
 
         return isView;
