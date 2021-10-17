@@ -771,6 +771,9 @@ GameObject:
   - component: {fileID: 835748978}
   - component: {fileID: 835748984}
   - component: {fileID: 835748983}
+  - component: {fileID: 835748985}
+  - component: {fileID: 835748987}
+  - component: {fileID: 835748986}
   m_Layer: 9
   m_Name: slime
   m_TagString: Untagged
@@ -935,6 +938,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430a8fb9c0834324987286525dff5d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &835748985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835748977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7780110ec1a2cb2409681c1efdfea93b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  judgeTime: 0.2
+  stunTime: 0.5
+--- !u!114 &835748986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835748977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f560ed6e8ff45e41b542db31a979d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRange: 10
+  viewAngle: 40
+  atkRange: 1
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &835748987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835748977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d50f2f62f2da374692b8c3346d2d549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  facingRight: 1
+  judgeDistance: 0.1
+  currentSpeed: 0
+  chaseSpeed: 2
+  moveSpeed: 1
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!4 &851176290 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8813366404957140097, guid: 8116631f6f42f7d458765ec1073d9de4, type: 3}
