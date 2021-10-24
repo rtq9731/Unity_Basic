@@ -54,6 +54,7 @@ public class SlimeHealth : LivingEntity
         slimeAnim.SetDead();
         boxCollider2D.enabled = false;
 
+        CoinManager.PopCoin(transform.position, 10);
         //内牢 积己 内靛
 
         Invoke("DeadProcess", 1f);

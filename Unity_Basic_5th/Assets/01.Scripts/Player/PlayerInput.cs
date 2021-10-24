@@ -11,7 +11,7 @@ public class PlayerInput : MonoBehaviour
     public bool isJump { get; private set; }
     public bool isDash { get; private set; }
     public bool isAttack { get; private set; }
-
+    public bool isUse { get; private set; }
     void Update()
     {
         //Axis 조이스틱을 기반으로 0 ~ 1
@@ -22,11 +22,13 @@ public class PlayerInput : MonoBehaviour
             isJump = false;
             isDash = false;
             isAttack = false;
+            isUse = false;
             return;
         }
         xMove = Input.GetAxisRaw("Horizontal");
         isJump = Input.GetButtonDown("Jump");
         isDash = Input.GetButtonDown("Dash");
         isAttack = Input.GetButtonDown("Fire1");
+        isUse = Input.GetButtonDown("Use");
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,6 +53,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private int coinCount = 0;
+    public static void AddCoin(int coin)
+    {
+        instance.coinCount++;
+        // 지금은 코인 증가만 / 나중엔 로직추가
+    }
+
+    public static void RemoveCoin(int value)
+    {
+        // 여기도 UI 갱신 필요
+        instance.coinCount = Mathf.Clamp(instance.coinCount - value, 0, instance.coinCount);
+    }
+
     private void Start()
     {
         PoolManager.CreatePool<BloodParticle>(bloodParticlePrefab, transform, 10);
@@ -60,7 +74,7 @@ public class GameManager : MonoBehaviour
         //dialogPanel.StartDialog(dialogTextDictionary[0]);
     }
 
-    public static void ShowDialog(int index)
+    public static void ShowDialog(int index, Action callback = null)
     {
         if(index >= instance.dialogTextDictionary.Count)
         {
@@ -68,6 +82,6 @@ public class GameManager : MonoBehaviour
         }
 
         //해당 인덱스 의 대화를 재생하도록 함.
-        instance.dialogPanel.StartDialog(instance.dialogTextDictionary[index]);
+        instance.dialogPanel.StartDialog(instance.dialogTextDictionary[index], callback);
     }
 }

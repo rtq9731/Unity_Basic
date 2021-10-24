@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public class DialogPanel : MonoBehaviour
 {
@@ -26,15 +27,17 @@ public class DialogPanel : MonoBehaviour
 
     private Dictionary<int, Sprite> imageDictionary = new Dictionary<int, Sprite>();
 
+    private Action endDialogCallback = null;
     private void Awake()
     {
         panel = GetComponent<RectTransform>();
         textTransform = dialogText.GetComponent<RectTransform>();
     }
 
-    public void StartDialog(List<TextVO> list)
+    public void StartDialog(List<TextVO> list, Action callback = null)
     {
         this.list = list;
+        endDialogCallback = callback;
         ShowDialog();
     }
 
@@ -110,6 +113,10 @@ public class DialogPanel : MonoBehaviour
                      // 게임매니저의 시간 조절기능을 만들어야 돼
                      GameManager.TimeScale = 1f;
                      isOpen = false;
+                     if(endDialogCallback != null)
+                     {
+                         endDialogCallback();
+                     }
                  });
             }else
             {

@@ -6,7 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 7f;
     public float jumpForce = 30f;
-    public int jumpCount = 2;
+    public int jumpCount = 1;
     private int currentJumpCount;
 
     [Header("바닥 감지 관련")]
@@ -24,15 +24,17 @@ public class PlayerMove : MonoBehaviour
     [Header("대시 관련")]
     public GameObject afterImagePrefab;
     public Transform afterImageTrm;
+    public bool canDash = false;
     public float dashPower = 10f;
     public float dashTime = 0.2f;
+    public float dashCoolTime = 5f;
+
+    private float currentDashCooltime = 0f;
+    private bool isHit = false;
     private bool isDash = false;
 
     void Awake()
     {
-        //대시를 무한이 아니고 대시는 한번만 가능하고
-        //땅에 닿으면 대시 횟수 초기화 
-        // 비례식, 벡터, 삼각함수
         rigid = GetComponent<Rigidbody2D>();
         input = GetComponent<PlayerInput>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -53,12 +55,36 @@ public class PlayerMove : MonoBehaviour
             isJump = true;
         }
         
-        if(input.isDash && !isDash)
+        if(input.isDash && !isDash && canDash && currentDashCooltime <= 0f)
         {
             isDash = true;
-            Debug.Log("대시");
+            currentDashCooltime = dashCoolTime;
             StartCoroutine(Dash());
         }
+
+        // 대시 쿨타임 줄이기
+        if(currentDashCooltime > 0)
+        {
+            currentDashCooltime -= Time.deltaTime;
+            if (currentDashCooltime <= 0) currentDashCooltime = 0;
+        }
+    }
+
+    //피격 로직
+    public void SetHit(Vector2 normal, float power, float delay)
+    {
+        rigid.gravityScale = 1;
+        rigid.velocity = Vector2.zero;
+        Vector2 dir = -normal * power * new Vector2(0, 4);
+        rigid.AddForce(dir, ForceMode2D.Impulse);
+        StartCoroutine(RecoverProcess(delay));
+    }
+
+    IEnumerator RecoverProcess(float time)
+    {
+        isHit = true;
+        yield return new WaitForSeconds(time);
+        isHit = false;
     }
 
     IEnumerator Dash()

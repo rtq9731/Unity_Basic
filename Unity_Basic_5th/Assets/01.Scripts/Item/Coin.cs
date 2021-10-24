@@ -14,6 +14,7 @@ public class Coin : Item
     public override void Use(GameObject target)
     {
         // 코인 더해주는 코드.
+        GameManager.AddCoin(value);
         base.Use(target);
     }
 
