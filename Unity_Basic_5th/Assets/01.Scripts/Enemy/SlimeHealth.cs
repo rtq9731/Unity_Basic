@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SlimeHealth : LivingEntity
 {
-    public Color hitColor;
     public int coinCount = 3;
 
     BoxCollider2D boxCollider2D;
@@ -31,7 +30,7 @@ public class SlimeHealth : LivingEntity
         base.Start();
     }
 
-    public override void OnDamage(int damage, Vector2 hitPoint, Vector2 normal)
+    public override void OnDamage(int damage, Vector2 hitPoint, Vector2 normal, float power)
     {
         rigid.velocity = Vector2.zero;
         rigid.AddForce(normal * -damage * 2, ForceMode2D.Impulse);
@@ -39,12 +38,6 @@ public class SlimeHealth : LivingEntity
         base.OnDamage(damage, hitPoint, normal);
 
         ai.SetHit(); // 일시적으로 AI 정지 및 recover 시간이 끝나면 다시 작동함
-
-        // 피격 파티클 재생
-        BloodParticle hitParticle = PoolManager.GetItem<BloodParticle>();
-        hitParticle.SetParticleColor(hitColor);
-        hitParticle.SetRotation(normal);
-        hitParticle.Play(hitPoint);
     }
 
     protected override void OnDie()

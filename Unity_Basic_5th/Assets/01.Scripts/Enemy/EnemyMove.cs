@@ -29,18 +29,22 @@ public abstract class EnemyMove : MonoBehaviour
 
     public Vector2 GetFront()
     {
+        if (sr == null)
+            return transform.right;
+
         if(facingRight)
         {
-            return sr.flipX ? transform.right * -1 : transform.right;
+            return transform.localScale.x > 0 ? transform.right * -1 : transform.right;
         }
         else
         {
-            return sr.flipX ? transform.right : transform.right * -1;
+            return transform.localScale.x > 0 ? transform.right : transform.right * -1;
         }
     }
 
     public virtual void Stop()
     {
+        rigid.velocity = Vector2.zero;
         moveSet = false;
     }
 
@@ -61,6 +65,8 @@ public abstract class EnemyMove : MonoBehaviour
 
     public void Flip()
     {
-        sr.flipX = !sr.flipX;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 }

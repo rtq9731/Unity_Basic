@@ -12,6 +12,8 @@ public class EnemyAI : MonoBehaviour
         Chase,
         Attack,
         Hit,
+        Skill,
+        Stun, 
         Dead
     }
 
@@ -22,12 +24,14 @@ public class EnemyAI : MonoBehaviour
     private WaitForSeconds ws;
     protected EnemyFOV fov;
     protected EnemyMove move;
+    protected EnemyAttack attack;
 
     private void Awake()
     {
         ws = new WaitForSeconds(judgeTime);
         fov = GetComponent<EnemyFOV>();
         move = GetComponent<EnemyMove>();
+        attack = GetComponent<EnemyAttack>();
     }
 
     private void OnEnable()
@@ -51,14 +55,14 @@ public class EnemyAI : MonoBehaviour
 
     private void CheckState()
     {
-        if (currentState == State.Hit || currentState == State.Dead)
+        if (currentState == State.Hit || currentState == State.Dead || currentState == State.Stun)
             return;
 
         bool isTrace = fov.IsTracePlayer();
         bool isView = fov.IsViewPlayer();
         bool isAttack = fov.IsAttackPossible();
 
-        if (isAttack && isView)
+        if (isAttack && isView && isTrace)
         {
             currentState = State.Attack;
         }
@@ -79,17 +83,32 @@ public class EnemyAI : MonoBehaviour
             case State.Idle:
                 break;
             case State.Patrol:
+                if (attack != null)
+                    attack.isAttack = false;
+
                 move.SetMove();
                 break;
             case State.Chase:
+                if (attack != null)
+                    attack.isAttack = false;
+
                 move.SetChase(GameManager.Player.position);
                 break;
             case State.Attack:
+                move.Stop();
+
+                if (attack != null)
+                    attack.isAttack = true;
+
                 break;
             case State.Hit:
+                if (attack != null)
+                    attack.isAttack = false;
+
                 move.Stop();
                 break;
             case State.Dead:
+                SetDead();
                 break;
             default:
                 break;
@@ -103,10 +122,31 @@ public class EnemyAI : MonoBehaviour
         StartCoroutine(Recover(stunTime));
     }
 
+    public void SetStun(float time)
+    {
+        currentState = State.Stun;
+        
+        if (time == 0)
+            time = stunTime;
+
+        // 여기에 스턴 에니메이션 입력
+        StartCoroutine(Recover(time));
+    }
+
     private IEnumerator Recover(float time)
     {
         yield return new WaitForSeconds(time);
         currentState = State.Patrol;
+    }
+
+    public void SetDead()
+    {
+        currentState = State.Dead;
+
+        if (attack != null)
+            attack.isAttack = false;
+
+        move.Stop();
     }
 
 }

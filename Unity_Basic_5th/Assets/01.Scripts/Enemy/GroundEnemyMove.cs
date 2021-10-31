@@ -36,14 +36,14 @@ public class GroundEnemyMove : EnemyMove
 
             if(facingRight)
             {
-                if(moveDir.x > 0 && sr.flipX || moveDir.x < 0 && !sr.flipX)
+                if(moveDir.x > 0 && transform.localScale.x < 0 || moveDir.x < 0 && transform.localScale.x > 0)
                 {
                     Flip();
                 }
             }
             else
             {
-                if(moveDir.x < 0 && sr.flipX || moveDir.x > 0 && !sr.flipX)
+                if(moveDir.x < 0 && transform.localScale.x < 0 || moveDir.x > 0 && transform.localScale.x > 0)
                 {
                     Flip();
                 }
