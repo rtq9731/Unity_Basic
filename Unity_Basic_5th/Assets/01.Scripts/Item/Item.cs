@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour, IUseable
+public abstract class Item : MonoBehaviour, IUseAble
 {
     public int value;
 

@@ -12,6 +12,7 @@ public class PlayerInput : MonoBehaviour
     public bool isDash { get; private set; }
     public bool isAttack { get; private set; }
     public bool isUse { get; private set; }
+
     void Update()
     {
         //Axis 조이스틱을 기반으로 0 ~ 1
@@ -29,6 +30,6 @@ public class PlayerInput : MonoBehaviour
         isJump = Input.GetButtonDown("Jump");
         isDash = Input.GetButtonDown("Dash");
         isAttack = Input.GetButtonDown("Fire1");
-        isUse = Input.GetButtonDown("Use");
+        isUse = Input.GetButtonDown("Use"); //당연히 이건 아직 없다 r키로 할당해줄 예정
     }
 }

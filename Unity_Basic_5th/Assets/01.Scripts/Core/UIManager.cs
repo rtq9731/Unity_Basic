@@ -6,14 +6,12 @@ using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance = null;
+    public static UIManager instance;
     public RectTransform tooltipTextTrm;
     public Text tooltipText;
 
     private CanvasGroup tooltipCG;
     private Vector3 initPosition;
-
-    Sequence seq = null;
 
     private void Awake()
     {
@@ -21,7 +19,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("경고 : 다수의 UI Manager가 실행중입니다.");
         }
-
+        
         instance = this;
 
         tooltipCG = tooltipTextTrm.GetComponent<CanvasGroup>();
@@ -29,33 +27,29 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        instance.initPosition = instance.tooltipTextTrm.localPosition;
+        //초기의 포지션을 저장해두고
+        initPosition = tooltipTextTrm.localPosition;
     }
 
     public static void ShowToolTip(string text)
     {
-        if(instance.seq != null)
-        instance.seq.Kill();
-
         instance.tooltipText.text = text;
-        instance.seq = DOTween.Sequence();
 
+        Sequence seq = DOTween.Sequence();
         CanvasGroup cg = instance.tooltipCG;
-
-        instance.seq.Append(DOTween.To(() => cg.alpha, vaule => cg.alpha = vaule, 1, 0.8f));
+        seq.Append(DOTween.To(() => cg.alpha, value => cg.alpha = value, 1, 0.8f));
         float y = instance.initPosition.y;
-        instance.seq.Join(instance.tooltipTextTrm.DOLocalMoveY(y + 110f, 0.5f));
+        seq.Join(instance.tooltipTextTrm.DOLocalMoveY(y + 120f, 0.5f));
     }
 
-    public static void CloseToolTip()
+    public static void CloseTooltip()
     {
-        instance.seq.Kill();
-
+        DOTween.Clear(); //모든 트윈을 종료시키고 
+        //시퀀스를 만들어서 투명도를 다시 투명하게 바꾸고 initPosition으로 보내면 돼
         CanvasGroup cg = instance.tooltipCG;
-
-        instance.seq = DOTween.Sequence();
-
-        instance.seq.Append(DOTween.To(() => cg.alpha, vaule => cg.alpha = vaule, 0, 0.8f));
-        instance.seq.Join(instance.tooltipTextTrm.DOLocalMoveY(instance.initPosition.y, 0.5f));
+        Sequence seq = DOTween.Sequence();
+        seq.Append(DOTween.To(() => cg.alpha, value => cg.alpha = value, 0, 0.8f));
+        seq.Join(instance.tooltipTextTrm.DOLocalMoveY(instance.initPosition.y, 0.5f));
     }
+
 }

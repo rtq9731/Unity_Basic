@@ -5,18 +5,18 @@ using UnityEngine;
 
 public abstract class LivingEntity : MonoBehaviour, IDamageable
 {
-    public Color hitColor;
     public int maxHP;
     protected int currentHP;
+    public Color hitColor;
 
     protected virtual void Start()
     {
         currentHP = maxHP;
     }
 
-    public virtual void OnDamage(int damage, Vector2 hitPoint, Vector2 normal, float power = 0f)
+    public virtual void OnDamage(int damage, Vector2 hitPoint, Vector2 normal, float power = 0)
     {
-        // 피격 파티클 재생
+        // 피격 파티클은 여기서 재생 
         BloodParticle hitParticle = PoolManager.GetItem<BloodParticle>();
         hitParticle.SetParticleColor(hitColor);
         hitParticle.SetRotation(normal);
@@ -27,7 +27,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         {
             OnDie();
         }
-
     }
 
     protected abstract void OnDie();

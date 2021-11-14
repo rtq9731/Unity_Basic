@@ -6,17 +6,17 @@ public class PlayerInteraction : MonoBehaviour
 {
     private PlayerInput playerInput;
     private Interactable thing = null;
-
-    private void Start()
+    
+    void Start()
     {
         playerInput = GetComponent<PlayerInput>();
     }
 
-    private void Update()
+    void Update()
     {
         if(playerInput.isUse && thing != null)
-        {
-            thing.Use(gameObject); 
+        {            
+            thing.Use(gameObject);
         }
     }
 
@@ -37,5 +37,4 @@ public class PlayerInteraction : MonoBehaviour
             thing = null;
         }
     }
-
 }

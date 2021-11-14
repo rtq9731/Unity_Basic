@@ -6,7 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 7f;
     public float jumpForce = 30f;
-    public int jumpCount = 1;
+    public int jumpCount = 2;
     private int currentJumpCount;
 
     [Header("바닥 감지 관련")]
@@ -24,14 +24,14 @@ public class PlayerMove : MonoBehaviour
     [Header("대시 관련")]
     public GameObject afterImagePrefab;
     public Transform afterImageTrm;
-    public bool canDash = false;
+    public bool canDash = false;  //대시가 가능한가?
     public float dashPower = 10f;
     public float dashTime = 0.2f;
-    public float dashCoolTime = 5f;
+    public float dashCooltime = 5f; //대시는 5초에 한번만
 
-    private float currentDashCooltime = 0f;
-    private bool isHit = false;
-    private bool isDash = false;
+    private float currentDashCooltime = 0f; 
+    private bool isDash = false; //현재 대시중인가?
+    private bool isHit = false;//피격중인가?
 
     void Awake()
     {
@@ -55,14 +55,14 @@ public class PlayerMove : MonoBehaviour
             isJump = true;
         }
         
-        if(input.isDash && !isDash && canDash && currentDashCooltime <= 0f)
+        if(input.isDash && !isDash && canDash && currentDashCooltime <= 0)
         {
             isDash = true;
-            currentDashCooltime = dashCoolTime;
+            currentDashCooltime = dashCooltime;
             StartCoroutine(Dash());
         }
 
-        // 대시 쿨타임 줄이기
+        //대시 쿨타임을 줄여준다
         if(currentDashCooltime > 0)
         {
             currentDashCooltime -= Time.deltaTime;
@@ -70,13 +70,15 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    //피격 로직
+    //피격시 처리 함수
     public void SetHit(Vector2 normal, float power, float delay)
     {
         rigid.gravityScale = 1;
         rigid.velocity = Vector2.zero;
         Vector2 dir = -normal * power + new Vector2(0, 4);
+        
         rigid.AddForce(dir, ForceMode2D.Impulse);
+        playerAnimation.SetHit(true);
         StartCoroutine(RecoverProcess(delay));
     }
 
@@ -85,6 +87,7 @@ public class PlayerMove : MonoBehaviour
         isHit = true;
         yield return new WaitForSeconds(time);
         isHit = false;
+        playerAnimation.SetHit(false);
     }
 
     IEnumerator Dash()
@@ -120,7 +123,7 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(isDash) return; //대시중에는 기본 연산은 하지 않는다.
+        if(isDash || isHit) return; //대시중에는 기본 연산은 하지 않는다.
 
         float xMove = input.xMove;
         if (xMove > 0)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class EnemyAttack : MonoBehaviour
 {
-    public float attackDelay;
+    public float attackDealy;
 
     protected float lastAttackTime = 0;
     public bool isAttack = false;
@@ -15,12 +15,12 @@ public abstract class EnemyAttack : MonoBehaviour
     }
 
     public abstract void Attack();
-
-    private void Update()
+    
+    protected virtual void Update()
     {
         if(isAttack)
         {
-            if(lastAttackTime + attackDelay <= Time.time)
+            if(lastAttackTime + attackDealy <= Time.time) //딜레이가 끝나 다시 공격가능하다면
             {
                 lastAttackTime = Time.time;
                 Attack();
@@ -28,4 +28,8 @@ public abstract class EnemyAttack : MonoBehaviour
         }
     }
 
+    public virtual void OnStartAttack()
+    {
+        //Do nothing;
+    }
 }

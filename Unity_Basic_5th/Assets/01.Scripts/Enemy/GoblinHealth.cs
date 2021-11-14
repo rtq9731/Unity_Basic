@@ -5,36 +5,35 @@ using UnityEngine;
 public class GoblinHealth : LivingEntity
 {
     public bool isSuperArmor = false;
-    public int coinCount = 0;
+    public int coinCount = 5;
 
-    BoxCollider2D boxCollider;
+    BoxCollider2D boxCol;
     Rigidbody2D rigid;
-    GoblinAnimation animation;
+    GoblinAnimation anim;
     EnemyAI ai;
 
     private void Awake()
     {
-        boxCollider = GetComponent<BoxCollider2D>();
+        boxCol = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
-        animation = GetComponent<GoblinAnimation>();
+        anim = GetComponent<GoblinAnimation>();
         ai = GetComponent<EnemyAI>();
     }
 
     private void OnEnable()
     {
-        boxCollider.enabled = true;
+        boxCol.enabled = true;
         rigid.gravityScale = 1;
     }
 
-    public override void OnDamage(int damage, Vector2 hitPoint, Vector2 normal, float power)
+    public override void OnDamage(int damage, Vector2 hitPoint, Vector2 normal, float power = 1f)
     {
-        if(!isSuperArmor)
+        if (!isSuperArmor)
         {
             rigid.AddForce(normal * -damage * 2, ForceMode2D.Impulse);
             ai.SetHit();
         }
-        // 피격 애니메이션 만들려면 여기 만드셈
-
+        // 피격애니메이션을 만들고 싶다면 여기다 넣어야 해
         base.OnDamage(damage, hitPoint, normal);
     }
 
@@ -42,10 +41,10 @@ public class GoblinHealth : LivingEntity
     {
         rigid.gravityScale = 0;
         rigid.velocity = Vector2.zero;
-        animation.SetDead();
-        boxCollider.enabled = false;
+        anim.SetDead();
+        boxCol.enabled = false;
 
-        ai.SetDead();
+        ai.SetDead(); //만들꺼야
 
         CoinManager.PopCoin(transform.position, coinCount);
 
@@ -56,4 +55,5 @@ public class GoblinHealth : LivingEntity
     {
         gameObject.SetActive(false);
     }
+
 }

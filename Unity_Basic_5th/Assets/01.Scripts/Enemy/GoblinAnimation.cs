@@ -34,4 +34,6 @@ public class GoblinAnimation : MonoBehaviour
         animator.SetBool(hashDead, true);
         animator.SetTrigger(hashDie);
     }
+    
+
 }

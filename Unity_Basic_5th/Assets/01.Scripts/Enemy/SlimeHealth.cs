@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlimeHealth : LivingEntity
 {
-    public int coinCount = 3;
+    public int coinCoint = 3; // 코인 떨구는 갯수
 
     BoxCollider2D boxCollider2D;
     Rigidbody2D rigid;
@@ -13,10 +13,10 @@ public class SlimeHealth : LivingEntity
 
     private void Awake()
     {
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        ai = GetComponent<EnemyAI>();
         rigid = GetComponent<Rigidbody2D>();
         slimeAnim = GetComponent<SlimeAnimation>();
-        ai = GetComponent<EnemyAI>();
+        boxCollider2D = GetComponent<BoxCollider2D>();     
     }
 
     private void OnEnable()
@@ -30,25 +30,28 @@ public class SlimeHealth : LivingEntity
         base.Start();
     }
 
-    public override void OnDamage(int damage, Vector2 hitPoint, Vector2 normal, float power)
+    public override void OnDamage(int damage, Vector2 hitPoint, Vector2 normal, float power = 1f)
     {
         rigid.velocity = Vector2.zero;
-        rigid.AddForce(normal * -damage * 2, ForceMode2D.Impulse);
+        rigid.AddForce(normal * -damage * 2 + new Vector2(0,3f) , ForceMode2D.Impulse);
         slimeAnim.SetHit();
         base.OnDamage(damage, hitPoint, normal);
 
-        ai.SetHit(); // 일시적으로 AI 정지 및 recover 시간이 끝나면 다시 작동함
+        ai.SetHit(); // 일시적으로 ai 정지 및 일정시간후 다시 돌아옴 
+
     }
 
     protected override void OnDie()
     {
         rigid.gravityScale = 0;
         rigid.velocity = Vector2.zero;
+
         slimeAnim.SetDead();
+
         boxCollider2D.enabled = false;
 
-        CoinManager.PopCoin(transform.position, 10);
-        //코인 생성 코드
+        CoinManager.PopCoin(transform.position, coinCoint);
+
 
         Invoke("DeadProcess", 1f);
     }
@@ -57,4 +60,6 @@ public class SlimeHealth : LivingEntity
     {
         gameObject.SetActive(false);
     }
+
+
 }

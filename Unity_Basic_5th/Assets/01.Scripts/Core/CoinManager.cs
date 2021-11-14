@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class CoinManager : MonoBehaviour
 {
-    [SerializeField] GameObject coinPrefab;
-
+    public GameObject coinPrefab;
+    
     void Start()
     {
-        PoolManager.CreatePool<Coin>(coinPrefab, transform, 30);        
+        PoolManager.CreatePool<Coin>(coinPrefab, transform, 30);
     }
 
+    
     public static void PopCoin(Vector3 pos, int count)
     {
-        for (int i = 0; i < count; i++)
+        for(int i = 0; i < count; i++)
         {
             Coin coin = PoolManager.GetItem<Coin>();
             coin.PopUp(pos);

@@ -28,6 +28,7 @@ public class DialogPanel : MonoBehaviour
     private Dictionary<int, Sprite> imageDictionary = new Dictionary<int, Sprite>();
 
     private Action endDialogCallback = null;
+
     private void Awake()
     {
         panel = GetComponent<RectTransform>();
@@ -36,8 +37,8 @@ public class DialogPanel : MonoBehaviour
 
     public void StartDialog(List<TextVO> list, Action callback = null)
     {
-        this.list = list;
         endDialogCallback = callback;
+        this.list = list;
         ShowDialog();
     }
 
@@ -45,6 +46,7 @@ public class DialogPanel : MonoBehaviour
     {
         currentIndex = 0;
         GameManager.TimeScale = 0f;
+
         panel.DOScale(new Vector3(1, 1, 1), 0.8f).OnComplete(() =>
         {
             TypeIt(list[currentIndex]);

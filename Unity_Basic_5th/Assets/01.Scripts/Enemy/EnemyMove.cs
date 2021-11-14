@@ -6,13 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class EnemyMove : MonoBehaviour
 {
-    protected SpriteRenderer sr;
-    public bool facingRight = true; // 오른쪽을 보고 있는가?
+    protected SpriteRenderer spriteRenderer;
+    public bool facingRight = true; // 오른쪽 보고 있는감
 
     public float judgeDistance = 0.1f;
+   // public float patrolDistance = 1.5f;
     public float currentSpeed;
 
-    public float chaseSpeed = 2;
+    public float chaseSpeed = 2f;
     public float moveSpeed = 1f;
 
     protected bool isChase = false;
@@ -23,22 +24,23 @@ public abstract class EnemyMove : MonoBehaviour
 
     protected virtual void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
     }
 
     public Vector2 GetFront()
     {
-        if (sr == null)
-            return transform.right;
-
-        if(facingRight)
+        //if(spriteRenderer == null)
+        //{
+        //    return transform.right;
+        //}
+        if (facingRight)
         {
-            return transform.localScale.x > 0 ? transform.right * -1 : transform.right;
+            return transform.localScale.x > 0 ? transform.right : transform.right * -1;
         }
         else
         {
-            return transform.localScale.x > 0 ? transform.right : transform.right * -1;
+            return transform.localScale.x > 0 ? transform.right * -1 : transform.right;
         }
     }
 
@@ -62,11 +64,13 @@ public abstract class EnemyMove : MonoBehaviour
         moveSet = true;
         currentSpeed = moveSpeed;
     }
-
+    
     public void Flip()
     {
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
     }
+
+    
 }

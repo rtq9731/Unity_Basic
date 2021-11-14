@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Coin : Item
 {
+
     Rigidbody2D rigid;
 
     private void Awake()
@@ -13,7 +14,6 @@ public class Coin : Item
 
     public override void Use(GameObject target)
     {
-        // 코인 더해주는 코드.
         GameManager.AddCoin(value);
         base.Use(target);
     }
@@ -22,13 +22,17 @@ public class Coin : Item
     {
         transform.position = pos;
         float angle = Random.Range(-45f, 45f);
-        Vector2 dir = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
-
+        Vector2 dir = new Vector2(
+                        Mathf.Sin(angle * Mathf.Deg2Rad),
+                        Mathf.Cos(angle * Mathf.Deg2Rad));
         rigid.AddForce(dir * 10, ForceMode2D.Impulse);
     }
 
     public void DeployCoin(Vector3 pos)
     {
-
+        transform.position = pos;
     }
+
+
+
 }

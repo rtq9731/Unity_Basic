@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,18 +11,17 @@ public class EnemyAI : MonoBehaviour
         Chase,
         Attack,
         Hit,
-        Skill,
-        Stun, 
+        Skill,  //스킬 사용 상태
+        Stun,  //스턴당한 상태
         Dead
     }
-
     public State currentState = State.Idle;
     public float judgeTime = 0.2f;
     public float stunTime = 0.5f;
 
     private WaitForSeconds ws;
-    protected EnemyFOV fov;
     protected EnemyMove move;
+    protected EnemyFOV fov;
     protected EnemyAttack attack;
 
     private void Awake()
@@ -31,7 +29,7 @@ public class EnemyAI : MonoBehaviour
         ws = new WaitForSeconds(judgeTime);
         fov = GetComponent<EnemyFOV>();
         move = GetComponent<EnemyMove>();
-        attack = GetComponent<EnemyAttack>();
+        attack = GetComponent<EnemyAttack>(); //이렇게 하면 자기한테 맞는 Attack 이 가져와져
     }
 
     private void OnEnable()
@@ -41,32 +39,36 @@ public class EnemyAI : MonoBehaviour
 
     IEnumerator CheckNextAction()
     {
-        while(true)
+        while (true)
         {
-            if(GameManager.Player != null)
+            if(GameManager.Player != null) // 안전빵 코드 
             {
+                // ?? ㅋㅋㅋ 상태체크 , 상태따라 액션
+
                 CheckState();
+
                 Action();
             }
             yield return ws;
         }
     }
 
-
-    private void CheckState()
+    protected virtual void CheckState()
     {
-        if (currentState == State.Hit || currentState == State.Dead || currentState == State.Stun)
+        if(currentState == State.Hit || currentState == State.Dead || currentState == State.Stun)
+        {
             return;
+        }
 
         bool isTrace = fov.IsTracePlayer();
         bool isView = fov.IsViewPlayer();
         bool isAttack = fov.IsAttackPossible();
 
-        if (isAttack && isView && isTrace)
+        if(isAttack && isView && isTrace)
         {
             currentState = State.Attack;
         }
-        else if (isTrace && isView)
+        else if(isTrace && isView)
         {
             currentState = State.Chase;
         }
@@ -74,8 +76,8 @@ public class EnemyAI : MonoBehaviour
         {
             currentState = State.Patrol;
         }
-    }
 
+    }
     protected virtual void Action()
     {
         switch (currentState)
@@ -85,33 +87,25 @@ public class EnemyAI : MonoBehaviour
             case State.Patrol:
                 if (attack != null)
                     attack.isAttack = false;
-
                 move.SetMove();
                 break;
             case State.Chase:
                 if (attack != null)
                     attack.isAttack = false;
-
                 move.SetChase(GameManager.Player.position);
                 break;
             case State.Attack:
                 move.Stop();
-
                 if (attack != null)
                     attack.isAttack = true;
-
                 break;
             case State.Hit:
+                move.Stop();
                 if (attack != null)
                     attack.isAttack = false;
-
-                move.Stop();
                 break;
             case State.Dead:
-                SetDead();
-                break;
-            default:
-                break;
+                break;           
         }
     }
 
@@ -122,31 +116,29 @@ public class EnemyAI : MonoBehaviour
         StartCoroutine(Recover(stunTime));
     }
 
-    public void SetStun(float time)
+    public void SetStun(float time = 0)
     {
         currentState = State.Stun;
-        
         if (time == 0)
             time = stunTime;
 
-        // 여기에 스턴 에니메이션 입력
+        //여기에 스턴 애니메이션 사용
         StartCoroutine(Recover(time));
     }
 
-    private IEnumerator Recover(float time)
+    private IEnumerator Recover( float time)
     {
         yield return new WaitForSeconds(time);
+
         currentState = State.Patrol;
     }
 
     public void SetDead()
     {
         currentState = State.Dead;
-
         if (attack != null)
             attack.isAttack = false;
-
         move.Stop();
     }
-
 }
+     

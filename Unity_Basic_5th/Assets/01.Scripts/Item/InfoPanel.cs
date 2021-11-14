@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class InfoPanel : Interactable
 {
-    public int dialogCode;
+    public int dialogCode; //몇번 다이얼로그를 재생할지
 
     private bool isInteract = false;
 
     public override void Use(GameObject target)
     {
-        if (isInteract)
-        {
-            return;
-        }
-
+        if (isInteract) return;
+        
         isInteract = true;
-
-        GameManager.ShowDialog(dialogCode, () => isInteract = false);
-    }
+        GameManager.ShowDialog(dialogCode, ()=>
+        {
+            isInteract = false;
+        });
+    }    
 }
