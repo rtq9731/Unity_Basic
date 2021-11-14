@@ -29,8 +29,9 @@ public class BossTrigger : MonoBehaviour
             GameManager.TimeScale = 1;
             targetBoss.StartBoss();
         });
-        
+
         //보스 HP바 보여주고
-        
+        UIManager.ShowBossHPBar();
+
     }
 }

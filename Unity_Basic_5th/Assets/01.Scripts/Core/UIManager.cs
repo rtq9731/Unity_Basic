@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     public RectTransform tooltipTextTrm;
     public Text tooltipText;
+    public TMP_Text coinText = null;
+    
+    public BossHPBar bossHPBar;
 
     private CanvasGroup tooltipCG;
     private Vector3 initPosition;
@@ -29,6 +33,27 @@ public class UIManager : MonoBehaviour
     {
         //초기의 포지션을 저장해두고
         initPosition = tooltipTextTrm.localPosition;
+    }
+
+    public static void ShowBossHPBar()
+    {
+        RectTransform bar = instance.bossHPBar.GetComponent<RectTransform>();
+
+        if(bar != null)
+            bar.DOAnchorPosY(-16, 1f);
+    }
+
+    public static void SetBossHPBar(float value)
+    {
+        instance.bossHPBar.SetHP(value);
+    }
+
+    public static void HideBossHPBar()
+    {
+        RectTransform bar = instance.bossHPBar.GetComponent<RectTransform>();
+
+        if (bar != null)
+            bar.DOAnchorPosY(bar.rect.height, 1f);
     }
 
     public static void ShowToolTip(string text)
@@ -52,4 +77,8 @@ public class UIManager : MonoBehaviour
         seq.Join(instance.tooltipTextTrm.DOLocalMoveY(instance.initPosition.y, 0.5f));
     }
 
+    public static void SetCoinText(int count)
+    {
+        instance.coinText.text = count.ToString();
+    }
 }

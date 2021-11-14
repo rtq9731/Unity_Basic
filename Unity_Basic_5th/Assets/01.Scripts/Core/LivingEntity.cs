@@ -23,7 +23,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         hitParticle.Play(hitPoint);
 
         currentHP -= damage;
-        if (currentHP < 0)
+        if (currentHP <= 0)
         {
             OnDie();
         }

@@ -50,3 +50,6 @@ TagManager:
   - name: Player
     uniqueID: 2450150293
     locked: 0
+  - name: ETC
+    uniqueID: 2816998305
+    locked: 0
