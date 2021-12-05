@@ -8,34 +8,32 @@ public class StatusAnimation : MonoBehaviour
     private int hashExclaimTrigger = Animator.StringToHash("exclaim");
     private int hashQuestionTrigger = Animator.StringToHash("question");
 
-    private Animator anim;
+    private Animator _anim;
 
-    private void Start()
+    void Start()
     {
-        anim = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
     }
 
-    public void PlayeStun(float stunTime)
+    public void PlayStun(float stunTime)
     {
         StartCoroutine(StunRecover(stunTime));
     }
 
     IEnumerator StunRecover(float time)
     {
-        anim.SetBool(hashStunBool, true);
-
+        _anim.SetBool(hashStunBool, true);
         yield return new WaitForSeconds(time - 0.2f);
-
-        anim.SetBool(hashStunBool, false);
+        _anim.SetBool(hashStunBool, false);
     }
 
     public void PlayExclaim()
     {
-        anim.SetTrigger(hashExclaimTrigger);
+        _anim.SetTrigger(hashExclaimTrigger);
     }
 
     public void PlayQuestion()
     {
-        anim.SetTrigger(hashQuestionTrigger);
+        _anim.SetTrigger(hashQuestionTrigger);
     }
 }

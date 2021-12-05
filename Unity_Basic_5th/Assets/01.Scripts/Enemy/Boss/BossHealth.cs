@@ -5,28 +5,29 @@ using UnityEngine;
 public class BossHealth : LivingEntity
 {
     public Item dropItem;
-    public LootBox chestPrefab;
+    public LootBox lootBoxPrefab;
 
-    public int dropCointCount;
+    public int dropCoinCount;
 
     public int dialogCount = 0;
 
-    private GoblinAnimation goblinAnimation;
+    private GoblinAnimation _goblinAnim;
 
     private void Awake()
     {
-        goblinAnimation = GetComponent<GoblinAnimation>();
+        _goblinAnim = GetComponent<GoblinAnimation>();
     }
 
     public override void OnDamage(int damage, Vector2 hitPoint, Vector2 normal, float power = 0)
     {
         base.OnDamage(damage, hitPoint, normal, power);
-        UIManager.SetBossHPBar((float)currentHP / maxHP);
+        //보스 HP바에 셋팅해줘야 한다.
+        UIManager.SetBossHPBar( (float)currentHP / (float)maxHP);
     }
 
     protected override void OnDie()
     {
-        goblinAnimation.SetDead();
+        _goblinAnim.SetDead();
 
         if(dialogCount > 0)
         {
@@ -43,14 +44,18 @@ public class BossHealth : LivingEntity
 
     private void DropAndDeadProcess()
     {
-        CoinManager.PopCoin(transform.position, dropCointCount);
-        UIManager.HideBossHPBar();
+        //실질적인 드랍이 이루어지도록 한다.
+        CoinManager.PopCoin(transform.position, dropCoinCount);
 
         if(dropItem != null)
         {
-            LootBox lb = Instantiate(chestPrefab, transform.position, Quaternion.identity);
-            lb.SetLoot(dropItem);
-            lb.PopUP(transform.position);
+            LootBox lb = Instantiate(lootBoxPrefab, transform.position, Quaternion.identity);
+            lb.SetLootItem(dropItem);
+            lb.Popup(transform.position);
+
+            //여기에 보스의 HP바를 지워주는 걸 해주면 된다.
+
+            UIManager.HideBossHPBar();
 
             gameObject.SetActive(false);
         }

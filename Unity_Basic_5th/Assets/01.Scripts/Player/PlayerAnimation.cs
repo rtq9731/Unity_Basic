@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
-{    
+{   
+    public Animator swordAnim; 
     private Animator anim;
     private Rigidbody2D rigid;
     private PlayerMove playerMove;
@@ -16,6 +17,7 @@ public class PlayerAnimation : MonoBehaviour
     private readonly int hashAttack = Animator.StringToHash("attack");
     private readonly int hashIsHit = Animator.StringToHash("isHit");
     private readonly int hashHit = Animator.StringToHash("hit");
+    private readonly int hashAttackMode = Animator.StringToHash("attackMode");
 
     private bool jumping = false;
 
@@ -56,9 +58,21 @@ public class PlayerAnimation : MonoBehaviour
         jumping = false;
     }
 
-    public void StartAttack()
+    public void StartAttack(int mode)
     {
         anim.SetTrigger(hashAttack);
+        anim.SetInteger(hashAttackMode, mode);
+
+        //요기에는 검기이펙트 애니메이터 관련 코드 추가해야 함.
+        swordAnim.SetTrigger(hashAttack);
+        swordAnim.SetInteger(hashAttackMode, mode);
+    }
+
+    public void StopAttack()
+    {
+        anim.SetInteger(hashAttackMode, 0); 
+        //검기 이펙트도 종료 코드 넣어야 한다.
+        swordAnim.SetInteger(hashAttackMode, 0); 
     }
 
     public void SetHit(bool value)
@@ -68,5 +82,10 @@ public class PlayerAnimation : MonoBehaviour
         {
             anim.SetTrigger(hashHit);
         }
+    }
+
+    public void SetAnimationSpeed(float ratio)
+    {
+        anim.speed = Mathf.Clamp(ratio, 0.8f, 2f);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Define;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -13,11 +14,18 @@ public class PlayerInput : MonoBehaviour
     public bool isAttack { get; private set; }
     public bool isUse { get; private set; }
 
+    public PlayerMode mode; //모드 놓고
+
+    void Start()
+    {
+        mode = PlayerMode.Idle;
+    }
+
     void Update()
     {
         //Axis 조이스틱을 기반으로 0 ~ 1
         //Raw 키보드 입력 기반 0, 1
-        if(GameManager.TimeScale <= 0)
+        if (GameManager.TimeScale <= 0)
         {
             xMove = 0;
             isJump = false;
@@ -26,10 +34,23 @@ public class PlayerInput : MonoBehaviour
             isUse = false;
             return;
         }
-        xMove = Input.GetAxisRaw("Horizontal");
-        isJump = Input.GetButtonDown("Jump");
-        isDash = Input.GetButtonDown("Dash");
-        isAttack = Input.GetButtonDown("Fire1");
-        isUse = Input.GetButtonDown("Use"); //당연히 이건 아직 없다 r키로 할당해줄 예정
+
+        switch (mode)
+        {
+            case PlayerMode.Attack:
+                xMove = 0;
+                isAttack = Input.GetButtonDown("Fire1");
+                break;
+            case PlayerMode.Idle:
+            case PlayerMode.Jumping:
+            case PlayerMode.Moving:
+                xMove = Input.GetAxisRaw("Horizontal");
+                isJump = Input.GetButtonDown("Jump");
+                isDash = Input.GetButtonDown("Dash");
+                isAttack = Input.GetButtonDown("Fire1");
+                isUse = Input.GetButtonDown("Use"); //당연히 이건 아직 없다 r키로 할당해줄 예정
+                break;
+        }
+
     }
 }

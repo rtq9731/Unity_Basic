@@ -32,6 +32,5 @@ public class BossTrigger : MonoBehaviour
 
         //보스 HP바 보여주고
         UIManager.ShowBossHPBar();
-
     }
 }

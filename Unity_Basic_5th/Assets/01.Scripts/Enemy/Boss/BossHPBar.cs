@@ -6,22 +6,20 @@ using DG.Tweening;
 
 public class BossHPBar : MonoBehaviour
 {
-    public RectTransform fillImage = null;
-    public Text fillText = null;
+    public RectTransform _fillImage;
+    public Text _fillText;
 
-    private Tween tween = null;
+    Tween _t = null;
 
     public void SetHP(float value)
     {
-        if(tween != null && tween.IsActive())
+        if(_t != null && _t.IsActive() )
         {
-            tween.Kill();
+            _t.Kill();
         }
+        value = Mathf.Clamp(value, 0f, 1f);
+        _t = _fillImage.DOScaleX(value, 0.2f);
 
-        value = Mathf.Clamp(value, 0, 1);
-        tween = fillImage.DOScaleX(value, 0.2f);
-         
-
-        fillText.text = $"{(value * 100).ToString("F2")}%";
+        _fillText.text = $"{ (value * 100).ToString("F2")}%";
     }
 }

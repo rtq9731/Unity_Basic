@@ -22,6 +22,7 @@ public abstract class EnemyMove : MonoBehaviour
     protected bool moveSet = false;
     protected Rigidbody2D rigid;
 
+
     protected virtual void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();

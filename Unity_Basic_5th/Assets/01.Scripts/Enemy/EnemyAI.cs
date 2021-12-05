@@ -19,7 +19,7 @@ public class EnemyAI : MonoBehaviour
     public float judgeTime = 0.2f;
     public float stunTime = 0.5f;
 
-    public StatusAnimation statusAnim; 
+    public StatusAnimation _status;
 
     private WaitForSeconds ws;
     protected EnemyMove move;
@@ -32,7 +32,7 @@ public class EnemyAI : MonoBehaviour
         fov = GetComponent<EnemyFOV>();
         move = GetComponent<EnemyMove>();
         attack = GetComponent<EnemyAttack>(); //이렇게 하면 자기한테 맞는 Attack 이 가져와져
-        statusAnim = GetComponentInChildren<StatusAnimation>();
+        _status = GetComponentInChildren<StatusAnimation>(); //자식에 달려있는 상태 
     }
 
     private void OnEnable()
@@ -125,10 +125,8 @@ public class EnemyAI : MonoBehaviour
         if (time == 0)
             time = stunTime;
 
-        if(statusAnim != null)
-        {
-            statusAnim.PlayeStun(time);
-        }
+        if(_status != null)
+            _status.PlayStun(time);
 
         //여기에 스턴 애니메이션 사용
         StartCoroutine(Recover(time));

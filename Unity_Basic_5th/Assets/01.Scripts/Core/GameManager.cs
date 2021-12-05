@@ -51,18 +51,19 @@ public class GameManager : MonoBehaviour
     }
 
     private int coinCount = 0;
+
     public static void AddCoin(int value)
     {
-        UIManager.SetCoinText(instance.coinCount);
         //여기서는 단순히 코인을 증가시키기만 하지만 나중에 여기에 UI를 갱신하는 로직이 들어가야 한다.
         instance.coinCount += value;
+        UIManager.SetCoinText(instance.coinCount);
     }
 
     public static void RemoveCoin(int value)
     {
-        UIManager.SetCoinText(instance.coinCount);
         //당연히 여기서도 UI갱신
         instance.coinCount = Mathf.Clamp(instance.coinCount - value, 0, instance.coinCount);
+        UIManager.SetCoinText(instance.coinCount);
     }
 
 
@@ -89,9 +90,6 @@ public class GameManager : MonoBehaviour
         PoolManager.CreatePool<BloodParticle>(bloodParticlePrefab, transform, 10);
 
         UIManager.SetCoinText(coinCount);
-        
-        //이건 테스트 코드
-        //dialogPanel.StartDialog(dialogTextDictionary[0]);
     }
 
     public static void ShowDialog(int index, Action callback = null)

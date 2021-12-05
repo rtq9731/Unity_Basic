@@ -14,7 +14,4 @@ public class Coin : Item
     {
         transform.position = pos;
     }
-
-
-
 }

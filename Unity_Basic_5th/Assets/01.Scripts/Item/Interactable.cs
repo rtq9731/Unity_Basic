@@ -8,12 +8,11 @@ public abstract class Interactable : MonoBehaviour, IUseAble
 
     public abstract void Use(GameObject target);
 
-    protected bool used = false;
+    protected bool _used = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (used) return;
-
+        if (_used) return;
         if(collision.gameObject.CompareTag("Player"))
         {
             //UIManager를 통해서 툴팁 텍스트를 보여주도록하고

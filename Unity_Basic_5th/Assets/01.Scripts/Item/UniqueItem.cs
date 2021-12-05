@@ -4,20 +4,19 @@ using UnityEngine;
 
 public abstract class UniqueItem : Item
 {
-    public int dialogNumber = 5;
-    protected bool canUse = false;
-    protected bool used = false;
+    public int _dialogNumber = 5;
+    protected bool _canUse = false;
+    protected bool _used = false;
 
-    private void Start()
+    void Start()
     {
-        canUse = false;
+        _canUse = false;
         StartCoroutine(OpenDelay());
     }
 
     IEnumerator OpenDelay()
     {
         yield return new WaitForSeconds(1f);
-        canUse = true;
+        _canUse = true;
     }
-
 }

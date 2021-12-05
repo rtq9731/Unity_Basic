@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,57 +7,60 @@ public class LootBox : Interactable
     public Item dropItem;
 
     private readonly int hashOpenTrigger = Animator.StringToHash("open");
-    private BoxCollider2D boxCol;
-    private Animator anim;
-    private Rigidbody2D rigid;
+    private BoxCollider2D _boxCol;
+    private Animator _anim;
+    private Rigidbody2D _rigid;
 
-    private bool canUse = false;
+    private bool _canUse = false;
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
-        boxCol = GetComponent<BoxCollider2D>();
-        rigid = GetComponent<Rigidbody2D>();
-        canUse = false;
+        _anim = GetComponent<Animator>();
+        _boxCol = GetComponent<BoxCollider2D>();
+        _rigid = GetComponent<Rigidbody2D>();
+        _canUse = false;
     }
 
-    private void Start()
-    {
-        PopUP(transform.position);
-    }
+    //private void Start()
+    //{
+    //    StartCoroutine(Test());
+    //}
 
-    public void SetLoot(Item item)
+    //IEnumerator Test()
+    //{
+    //    yield return new WaitForSeconds(2f);
+    //    Popup(transform.position);
+    //}
+
+    public void SetLootItem(Item item)
     {
         dropItem = item;
     }
 
     public override void Use(GameObject target)
     {
-        if (!canUse || used)
-        {
-            return;
-        }
+        if (!_canUse || _used) return;
 
-        used = true;
-        anim.SetTrigger(hashOpenTrigger);
-
+        _used = true;
+        _anim.SetTrigger(hashOpenTrigger);
         Item item = Instantiate(dropItem, transform.position, Quaternion.identity);
+
         item.PopUp(transform.position);
     }
 
-    public void PopUP(Vector3 pos)
+    public void Popup(Vector3 pos)
     {
         transform.position = pos;
-        rigid.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
+        _rigid.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
         StartCoroutine(OpenDelay());
     }
 
-    private IEnumerator OpenDelay()
+    IEnumerator OpenDelay()
     {
         yield return new WaitForSeconds(1f);
-        rigid.gravityScale = 0;
-        boxCol.isTrigger = true;
-        rigid.velocity = Vector2.zero;
-        canUse = true;
+        _rigid.gravityScale = 0f;
+        _boxCol.isTrigger = true;
+        _rigid.velocity = Vector2.zero;
+        _canUse = true;
     }
 }

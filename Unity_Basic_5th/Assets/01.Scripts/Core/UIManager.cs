@@ -10,9 +10,10 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
     public RectTransform tooltipTextTrm;
     public Text tooltipText;
-    public TMP_Text coinText = null;
-    
+
     public BossHPBar bossHPBar;
+
+    public TMP_Text coinText;
 
     private CanvasGroup tooltipCG;
     private Vector3 initPosition;
@@ -35,23 +36,21 @@ public class UIManager : MonoBehaviour
         initPosition = tooltipTextTrm.localPosition;
     }
 
-    public static void ShowBossHPBar()
-    {
-        RectTransform bar = instance.bossHPBar.GetComponent<RectTransform>();
-
-        if(bar != null)
-            bar.DOAnchorPosY(-16, 1f);
-    }
-
     public static void SetBossHPBar(float value)
     {
         instance.bossHPBar.SetHP(value);
     }
 
+    public static void ShowBossHPBar()
+    {
+        RectTransform bar = instance.bossHPBar.GetComponent<RectTransform>();
+        if(bar != null)
+            bar.DOAnchorPosY(-20, 1f);
+    }
+
     public static void HideBossHPBar()
     {
         RectTransform bar = instance.bossHPBar.GetComponent<RectTransform>();
-
         if (bar != null)
             bar.DOAnchorPosY(bar.rect.height, 1f);
     }
@@ -77,8 +76,10 @@ public class UIManager : MonoBehaviour
         seq.Join(instance.tooltipTextTrm.DOLocalMoveY(instance.initPosition.y, 0.5f));
     }
 
+
     public static void SetCoinText(int count)
     {
         instance.coinText.text = count.ToString();
     }
+
 }
